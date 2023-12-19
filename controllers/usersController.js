@@ -1,6 +1,4 @@
-// controllers/userController.js
-
-const User = require('../models/user');
+const User = require('../models/users');
 
 class UserController {
     static async getAllUsers(req, res) {
