@@ -9,6 +9,20 @@ class UserController {
             res.status(500).json({ error: error.message });
         }
     }
+
+    static async login(req, res) {
+        try {
+            const { email, password } = req.body;
+            const user = await User.findByEmailandPassword(email, password);
+            if (user) {
+                res.json(user);
+            } else {
+                res.status(401).json({ error: 'Invalid login credentials' });
+            }
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
 }
 
 module.exports = UserController;
