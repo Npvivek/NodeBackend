@@ -1,20 +1,20 @@
+// app.js
+
 const express = require('express');
-const http = require('http');
+const bodyParser = require('body-parser');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
+app.use(bodyParser.json());
 
-
-const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader({ 'Content-Type': 'text/plain' });
-    res.end('Hello World\n');
+app.get('/', (req, res) => {
+    res.send('Hello this the home page.');
 });
 
+app.use(userRoutes);
 
-
-// Start the server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
