@@ -39,6 +39,14 @@ class User {
             console.log(error);
         }
     }
+
+    static async verifyPassword(password, hashedPassword) {
+        try {
+            return await bcrypt.compare(password, hashedPassword);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = User;

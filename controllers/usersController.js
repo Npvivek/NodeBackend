@@ -37,12 +37,25 @@ class UserController {
     static async login(req, res) {
         try {
             const { email, password } = req.body;
+
+            //find user by email and password
             const user = await User.findByEmailandPassword(email, password);
-            if (user) {
-                res.json({ message: 'Login successful' });
-            } else {
-                res.status(401).json({ error: 'Invalid login credentials' });
+
+            //check if user exists
+            if (!user) {
+                return res.status(400).json({ error: 'Invalid email or password' });
             }
+
+            //verify password
+            const passwordMatch = await User.verifyPassword(password, user.hashed_password);
+
+            //check if password matches
+            if (!passwordMatch) {
+                return res.status(400).json({ error: 'Invalid credentials' });
+            }
+
+            res.json({ message: 'Login successful' });
+
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
